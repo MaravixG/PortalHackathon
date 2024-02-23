@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Foundation
+import URLImage
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -66,7 +67,18 @@ struct ContentView: View {
                     .opacity(0.7) // Adjust the opacity as needed
                     .position(x: 230, y:540)
                 Button("press for art") {
-                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org")
+                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                        if let error = error {
+                            print("Error: \(error)")
+                            return
+                        }
+
+                        if let paintings = paintings {
+                            for painting in paintings {
+                                print("Title: \(painting.title), Image URL: \(painting.imageUrl)")
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -75,10 +87,41 @@ struct ContentView: View {
 }
 
 struct SecondView: View {
+    @State private var paintings: [Painting] = []
+    
     var body: some View {
-        Text("Second View")
-            .navigationTitle("Second View")
-    }
+            NavigationView {
+                VStack {
+                    Button("Press for Art") {
+                        fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                            if let error = error {
+                                print("Error: \(error)")
+                                return
+                            }
+
+                            if let paintings = paintings {
+                                self.paintings = paintings
+                            }
+                        }
+                    }
+
+                    List(paintings, id: \.imageUrl) { painting in
+                        VStack(alignment: .leading) {
+                            URLImage(URL(string: painting.imageUrl)!) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                            .frame(width: 100, height: 100)
+
+                            Text(painting.title)
+                                .font(.headline)
+                        }
+                    }
+                }
+                .navigationTitle("Art Gallery")
+            }
+        }
 }
 
 struct MuseumDetail: View {
@@ -98,26 +141,18 @@ struct MuseumDetail: View {
     }
 }
 
+struct Painting {
+    let title: String
+    let imageUrl: String
+}
 
-func fetchArt(myKey: String, baseURL: String) {
-    // Define a struct to represent a painting
-    struct Painting {
-        let title: String
-        let imageUrl: String
-    }
-
-    // Replace "YOUR_API_KEY" with your actual API key
-    let apiKey = myKey
-
-    // Define the base URL of the Harvard Art Museum API
-    let baseURL = baseURL
-
+func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?, Error?) -> Void) {
     // Define the endpoint for retrieving random objects
     let endpoint = "/object"
 
     // Define the query parameters for the API request
     let queryParams = [
-        "apikey": apiKey,
+        "apikey": myKey,
         "size": "5", // Specify the number of random paintings to retrieve
         "sort": "random" // Sort the results randomly
     ]
@@ -128,7 +163,7 @@ func fetchArt(myKey: String, baseURL: String) {
 
     // Create a URL object from the URL components
     guard let url = urlComponents.url else {
-        print("Invalid URL")
+        completion(nil, NSError(domain: "InvalidURL", code: -1, userInfo: nil))
         return
     }
 
@@ -142,20 +177,20 @@ func fetchArt(myKey: String, baseURL: String) {
     let task = session.dataTask(with: url) { data, response, error in
         // Check for errors
         if let error = error {
-            print("Error: \(error)")
+            completion(nil, error)
             return
         }
 
         // Check if response is received
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {
-            print("Invalid response")
+            completion(nil, NSError(domain: "InvalidResponse", code: -1, userInfo: nil))
             return
         }
 
         // Check if data is received
         guard let responseData = data else {
-            print("No data received")
+            completion(nil, NSError(domain: "NoData", code: -1, userInfo: nil))
             return
         }
 
@@ -174,12 +209,10 @@ func fetchArt(myKey: String, baseURL: String) {
                 }
             }
 
-            // Print the titles of the paintings stored in the array
-            for painting in paintings {
-                print("Title: \(painting.title), Image URL: \(painting.imageUrl)")
-            }
+            // Call the completion handler with the array of paintings
+            completion(paintings, nil)
         } catch {
-            print("Error parsing JSON: \(error)")
+            completion(nil, error)
         }
     }
 
@@ -187,4 +220,3 @@ func fetchArt(myKey: String, baseURL: String) {
     task.resume()
 }
 
-// Call the function to fetch random paintings

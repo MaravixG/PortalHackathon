@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C6328332B8947EC00378262 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4C6328322B8947EC00378262 /* URLImage */; };
+		4C6328352B8947EC00378262 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C6328342B8947EC00378262 /* URLImageStore */; };
 		4C7BE6752B89039F00DCF92A /* PortalHackathonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */; };
 		4C7BE6772B89039F00DCF92A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7BE6762B89039F00DCF92A /* ContentView.swift */; };
 		4C7BE6792B8903A000DCF92A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C7BE6782B8903A000DCF92A /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C6328352B8947EC00378262 /* URLImageStore in Frameworks */,
+				4C6328332B8947EC00378262 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +147,10 @@
 			dependencies = (
 			);
 			name = PortalHackathon;
+			packageProductDependencies = (
+				4C6328322B8947EC00378262 /* URLImage */,
+				4C6328342B8947EC00378262 /* URLImageStore */,
+			);
 			productName = PortalHackathon;
 			productReference = 4C7BE6712B89039F00DCF92A /* PortalHackathon.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +223,9 @@
 				Base,
 			);
 			mainGroup = 4C7BE6682B89039E00DCF92A;
+			packageReferences = (
+				4C6328312B8947EC00378262 /* XCRemoteSwiftPackageReference "url-image" */,
+			);
 			productRefGroup = 4C7BE6722B89039F00DCF92A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -583,6 +594,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4C6328312B8947EC00378262 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4C6328322B8947EC00378262 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6328312B8947EC00378262 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		4C6328342B8947EC00378262 /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6328312B8947EC00378262 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4C7BE6692B89039E00DCF92A /* Project object */;
 }
