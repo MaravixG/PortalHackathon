@@ -14,16 +14,16 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct Location {
+struct Museum {
     let name: String
-    let description: String
+    let location: String
     // You can add more properties such as coordinates, images, etc.
 }
 
 // Sample data for different locations
-let locations: [Location] = [
-    Location(name: "Location 1", description: "Description of Location 1"),
-    Location(name: "Location 2", description: "Description of Location 2"),
+let museums: [Museum] = [
+    Museum(name: "name 1", location: "Description of name 1"),
+    Museum(name: "name 2", location: "Description of name 2"),
     // Add more locations as needed
 ]
 
@@ -78,20 +78,20 @@ struct SecondView: View {
     }
 }
 
-struct LocationDetail: View {
-    let location: Location
+struct MuseumDetail: View {
+    let museum: Museum
     
     var body: some View {
         VStack {
-            Text(location.name)
+            Text(museum.name)
                 .font(.title)
                 .padding()
-            Text(location.description)
+            Text(museum.location)
                 .padding()
             // You can add more information here such as images, maps, etc.
             Spacer()
         }
-        .navigationTitle(location.name)
+        .navigationTitle(museum.name)
     }
 }
 
