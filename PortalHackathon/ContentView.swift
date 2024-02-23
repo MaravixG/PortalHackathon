@@ -29,47 +29,54 @@ let locations: [Location] = [
 
 struct ContentView: View {
     var body: some View {
-        ZStack {
-            // Background image
-            Image("WorldMapv1") // Replace "background_image" with the name of your image file
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-                // Other views overlaying the background
-        VStack {
-            Spacer() // Pushes the text to the top
-            Text("Portal")
-                .font(.largeTitle) // Set the font size
-                .foregroundColor(.white) // Set the text color
-                .padding(.top, 30)
-            Spacer(minLength: 1000)
-            
-            Button(action: {
-                // Action to perform when the button is tapped
-                print("Button tapped!")
-                
-            }) {
-                // Content of the button
-                Text("Tap Me")
-                    .font(.title) // Set the font size
-                    .foregroundColor(.white) // Set text color
-                    .padding() // Add padding around the text
-                    .background(Color.purple) // Set background color
-                    .cornerRadius(10) // Add rounded corners
-                }
-                .help("This is a place!")
-            }
+        NavigationStack {
             ZStack {
-                Text("This is a permanent tooltip")
-                    .foregroundColor(.white)
-                    .font(.caption)
-                    .padding(5)
-                    .background(Color.black)
-                    .cornerRadius(5)
-                    .opacity(0.7) // Adjust the opacity as needed
-                    .offset(x: 0, y: 480) // Adjust the position relative to the button
+                // Background image
+                Image("WorldMapv1") // Replace "background_image" with the name of your image file
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                // Other views overlaying the background
+                VStack {
+                    Spacer() // Pushes the text to the top
+                    Text("Portal")
+                        .font(.largeTitle) // Set the font size
+                        .foregroundColor(.white) // Set the text color
+                        .padding(.top, 30)
+                    Spacer(minLength: 1000)
+                    
+                    NavigationLink(destination: SecondView()) {
+                        // Button with text label
+                        Image(systemName: "building.columns")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.white)
+                            .offset(x: -200, y: -620)
+                    }
+                    
+                    
+                }
+                ZStack {
+                    Text("This is a permanent tooltip")
+                        .foregroundColor(.white)
+                        .font(.caption)
+                        .padding(5)
+                        .background(Color.black)
+                        .cornerRadius(5)
+                        .opacity(0.7) // Adjust the opacity as needed
+                        .offset(x: 0, y: 480) // Adjust the position relative to the button
+                }
             }
         }
+        .navigationTitle("MapView")
+    }
+}
+
+struct SecondView: View {
+    var body: some View {
+        Text("Second View")
+            .navigationTitle("Second View")
     }
 }
 
