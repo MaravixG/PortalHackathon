@@ -8,10 +8,11 @@
 import SwiftUI
 
 @main
-struct PortalHackathonApp: App {
+struct MapApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
     }
 }
+
