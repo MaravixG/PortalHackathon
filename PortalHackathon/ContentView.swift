@@ -90,7 +90,8 @@ struct SecondView: View {
     @State private var paintings: [Painting] = []
     
     var body: some View {
-            NavigationView {
+        NavigationStack {
+            
                 VStack {
                     Button("Press for Art") {
                         fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
@@ -98,31 +99,38 @@ struct SecondView: View {
                                 print("Error: \(error)")
                                 return
                             }
-
+                            
                             if let paintings = paintings {
                                 self.paintings = paintings
                             }
                         }
                     }
-
-                    List(paintings, id: \.imageUrl) { painting in
-                        VStack(alignment: .leading) {
-                            URLImage(URL(string: painting.imageUrl)!) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(paintings, id: \.imageUrl) { painting in
+                                VStack(alignment: .leading) {
+                                    URLImage( URL(string: painting.imageUrl)!) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                    .frame(width: 100, height: 100)
+                                    
+                                    Text(painting.title)
+                                        .font(.headline)
+                                }
                             }
-                            .frame(width: 100, height: 100)
-
-                            Text(painting.title)
-                                .font(.headline)
                         }
+                        .padding()
                     }
-                }
-                .navigationTitle("Art Gallery")
+                
             }
+            .navigationTitle("Art Gallery")
         }
+    }
 }
+
 
 struct MuseumDetail: View {
     let museum: Museum
