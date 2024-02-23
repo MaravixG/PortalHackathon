@@ -29,7 +29,7 @@ let locations: [Location] = [
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
+        NavigationStack{
             ZStack {
                 // Background image
                 Image("WorldMapv1") // Replace "background_image" with the name of your image file
@@ -37,6 +37,7 @@ struct ContentView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 // Other views overlaying the background
+                
                 VStack {
                     Spacer() // Pushes the text to the top
                     Text("Portal")
@@ -45,28 +46,25 @@ struct ContentView: View {
                         .padding(.top, 30)
                     Spacer(minLength: 1000)
                     
-                    NavigationLink(destination: SecondView()) {
-                        // Button with text label
-                        Image(systemName: "building.columns")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.white)
-                            .offset(x: -200, y: -620)
-                    }
-                    
                     
                 }
-                ZStack {
-                    Text("This is a permanent tooltip")
+                NavigationLink(destination: SecondView()) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .font(.caption)
-                        .padding(5)
-                        .background(Color.black)
-                        .cornerRadius(5)
-                        .opacity(0.7) // Adjust the opacity as needed
-                        .offset(x: 0, y: 480) // Adjust the position relative to the button
+                        .position(x: 230, y:500)
                 }
+                Text("Smithsonian Museum of Art, Washington D.C.")
+                    .foregroundColor(.white)
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7) // Adjust the opacity as needed
+                    .position(x: 230, y:540)
             }
         }
         .navigationTitle("MapView")
