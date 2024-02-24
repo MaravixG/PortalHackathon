@@ -8,6 +8,10 @@
 import SwiftUI
 import Foundation
 import URLImage
+import MapKit
+import UIKit
+import AVFoundation
+import AVKit
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -62,23 +66,14 @@ struct ContentView: View {
                     
                     
                 }
-                NavigationLink(destination: SecondView(cultureVal: "American")) {
+                /*NavigationLink(destination: SecondView(cultureVal: "American")) {
                     Image(systemName: "building.columns")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
                         .position(x: 230, y:500)
                 }
-                Text("Washington D.C.")
-                    .foregroundColor(.white)
-                    .font(.caption)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
-                    .padding(5)
-                    .background(Color.black)
-                    .cornerRadius(5)
-                    .opacity(0.7) // Adjust the opacity as needed
-                    .position(x: 230, y:540)
+                
                 NavigationLink(destination: SecondView(cultureVal: "French")) {
                     Image(systemName: "building.columns")
                         .resizable()
@@ -92,7 +87,75 @@ struct ContentView: View {
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
                         .position(x: 450, y:480)
-                }
+                }*/
+                NavigationLink(destination: SecondView(cultureVal: "American")) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .position(x: 240, y: 500) // Adjust as needed
+                                    
+                // Nav to second view ( France )
+                NavigationLink(destination: SecondView(cultureVal: "French")) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .position(x: 440, y: 480)
+                                    
+                                    // nav to third view ( Japan )
+                                    
+                NavigationLink(destination: SecondView(cultureVal: "Japanese")) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .position(x: 770, y: 500)
+                                
+                NavigationLink(destination: VideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: -30 , y: 20) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
+                                    
+                NavigationLink(destination: SecVideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: 350 , y: 150) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
+                                    
+                NavigationLink(destination: ThirdVideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: -250 , y: 9) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
+                
+                Text("Washington D.C.")
+                    .foregroundColor(.white)
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 230, y: 460)
+                
                 VStack {
                     Spacer()
                     HStack{
@@ -121,13 +184,58 @@ struct ContentView: View {
                     }
                     .padding(.bottom, 40)
                 }
+                }
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+        
+    }
+
+struct FirstView: View {
+    var body: some View {
+        Text("First View")
+            .navigationTitle("First View")
     }
 }
 
+struct ThirdView: View {
+    var body: some View {
+        Text("Third View")
+            .navigationTitle("Third View")
+    }
+}
+
+
+struct VideoView: View {
+    // Create the AVPlayer instance with the video URL
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "America", withExtension: "mp4")!)
+
+    var body: some View {
+        VideoPlayer(player: player)
+            .onAppear {
+                // Play the video automatically when the view appears
+                player.play()
+            }
+            .ignoresSafeArea()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationTitle("First Portal View")
+    }
+}
+
+struct SecVideoView: View {
+    var body: some View {
+        Text("Welcome to the portal 2")
+            .navigationTitle("Secnd  portal View")
+    }
+}
+
+struct ThirdVideoView: View {
+    var body: some View {
+        Text("Welcome to the portal 3")
+            .navigationTitle("Third portal View")
+    }
+}
 struct SecondView: View {
     @State private var paintings: [Painting] = []
     @State private var isLoading = false
@@ -253,7 +361,7 @@ func fetchArt(culture: String, myKey: String, baseURL: String, completion: @esca
     // Define the query parameters for the API request
     let queryParams = [
         "apikey": myKey,
-        "size": "1", // Specify the number of random paintings to retrieve
+        "size": "20", // Specify the number of random paintings to retrieve
         "sort": "random", // Sort the results randomly
         "fields": "title,primaryimageurl,people,datebegin",
     ]
