@@ -19,25 +19,12 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct Museum {
-    let name: String
-    let location: String
-    // You can add more properties such as coordinates, images, etc.
-}
-
-// Sample data for different locations
-let museums: [Museum] = [
-    Museum(name: "name 1", location: "Description of name 1"),
-    Museum(name: "name 2", location: "Description of name 2"),
-    // Add more locations as needed
-]
-
 struct ContentView: View {
     var body: some View {
         NavigationStack{
             ZStack {
                 // Background image
-                Image("WorldMapv2") // Replace "background_image" with the name of your image file
+                Image("MapBackground") // Replace "background_image" with the name of your image file
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
@@ -50,16 +37,16 @@ struct ContentView: View {
                         Text("P")
                             .font(.custom("Futura", size: 100))
                             .foregroundColor(.white)
-                            .padding(.top, 30)
+                            .padding(.top, 50)
                         Image(systemName: "door.left.hand.open")
                             .resizable()
                             .frame(width:50, height: 80)
-                            .padding(.top, 30)
+                            .padding(.top, 50)
                             .colorInvert()
                         Text("rtal")
                             .font(.custom("Futura", size:100))
                             .foregroundColor(.white)
-                            .padding(.top, 30)
+                            .padding(.top, 50)
                         Spacer()
                     }
                     Spacer()
@@ -204,6 +191,7 @@ struct ContentView: View {
                             .font(.custom("Futura", size:40))
                             .colorInvert()
                     }
+                    .padding(.bottom, 25)
                     HStack {
                         Text("Select a ")
                             .font(.custom("Futura", size:40))
@@ -216,7 +204,7 @@ struct ContentView: View {
                             .font(.custom("Futura", size:40))
                             .colorInvert()
                     }
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 80)
                 }
                 }
             }
@@ -363,22 +351,6 @@ extension Color {
     }
 }
 
-struct MuseumDetail: View {
-    let museum: Museum
-    
-    var body: some View {
-        VStack {
-            Text(museum.name)
-                .font(.title)
-                .padding()
-            Text(museum.location)
-                .padding()
-            // You can add more information here such as images, maps, etc.
-            Spacer()
-        }
-        .navigationTitle(museum.name)
-    }
-}
 
 struct Painting: Identifiable, Hashable {
     let id = UUID()
