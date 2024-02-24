@@ -8,6 +8,10 @@
 import SwiftUI
 import Foundation
 import URLImage
+import MapKit
+import UIKit
+import AVFoundation
+import AVKit
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -15,75 +19,243 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct Museum {
-    let name: String
-    let location: String
-    // You can add more properties such as coordinates, images, etc.
-}
-
-// Sample data for different locations
-let museums: [Museum] = [
-    Museum(name: "name 1", location: "Description of name 1"),
-    Museum(name: "name 2", location: "Description of name 2"),
-    // Add more locations as needed
-]
-
 struct ContentView: View {
     var body: some View {
         NavigationStack{
             ZStack {
                 // Background image
-                Image("WorldMapv1") // Replace "background_image" with the name of your image file
+                Image("MapBackground") // Replace "background_image" with the name of your image file
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 // Other views overlaying the background
                 
                 VStack {
-                    Spacer() // Pushes the text to the top
-                    Text("Portal")
-                        .font(.largeTitle) // Set the font size
-                        .foregroundColor(.white) // Set the text color
-                        .padding(.top, 30)
-                    Spacer(minLength: 1000)
+                    
+                    HStack {
+                        Spacer()
+                        Text("P")
+                            .font(.custom("Futura", size: 100))
+                            .foregroundColor(.white)
+                            .padding(.top, 50)
+                        Image(systemName: "door.left.hand.open")
+                            .resizable()
+                            .frame(width:50, height: 80)
+                            .padding(.top, 50)
+                            .colorInvert()
+                        Text("rtal")
+                            .font(.custom("Futura", size:100))
+                            .foregroundColor(.white)
+                            .padding(.top, 50)
+                        Spacer()
+                    }
+                    Spacer()
                     
                     
                 }
+                
                 NavigationLink(destination: SecondView(cultureVal: "American")) {
                     Image(systemName: "building.columns")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .position(x: 230, y:500)
-                }
-                Text("Washington D.C.")
-                    .foregroundColor(.white)
-                    .font(.caption)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
-                    .padding(5)
-                    .background(Color.black)
-                    .cornerRadius(5)
-                    .opacity(0.7) // Adjust the opacity as needed
-                    .position(x: 230, y:540)
+                    }
+                    .position(x: 240, y: 500) // Adjust as needed
+                                    
+                // Nav to second view ( France )
                 NavigationLink(destination: SecondView(cultureVal: "French")) {
                     Image(systemName: "building.columns")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .position(x: 500, y:600)
-                }
+                    }
+                    .position(x: 440, y: 480)
+                                    
+                                    // nav to third view ( Japan )
+                                    
                 NavigationLink(destination: SecondView(cultureVal: "Japanese")) {
                     Image(systemName: "building.columns")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .position(x: 450, y:480)
-                }
+                    }
+                    .position(x: 770, y: 500)
+                                
+                NavigationLink(destination: VideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: -30 , y: 20) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
+                                    
+                NavigationLink(destination: SecVideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: 360 , y: 160) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
+                                    
+                NavigationLink(destination: ThirdVideoView()) {
+                    Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                    }
+                    .offset(x: -250 , y: 9) // Adjust offset here for positioning
+                    .padding(.bottom, 50) // Padding to ensure it's within the safe area
                 
+                Text("America")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 240, y: 542)
+                
+                Text("Mexico City")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 180, y: 600)
+                
+                Text("France")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 440, y: 522)
+                
+                Text("Dakar")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 401, y: 612)
+                
+                Text("Sydney")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 792, y: 750)
+                
+                Text("Japan")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 771, y: 542)
+                
+                VStack {
+                    Spacer()
+                    HStack{
+                        Text("Select a ")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                        Image(systemName: "building.columns")
+                            .resizable()
+                            .frame(width:60, height:60)
+                            .colorInvert()
+                        Text(" to view art from that country")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                    }
+                    .padding(.bottom, 25)
+                    HStack {
+                        Text("Select a ")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                        Image(systemName: "door.left.hand.open")
+                            .resizable()
+                            .frame(width:37.5, height:60)
+                            .colorInvert()
+                        Text(" to call a Portal in that country")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                    }
+                    .padding(.bottom, 80)
+                }
+                }
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationTitle("MapView")
+        
+    }
+
+struct FirstView: View {
+    var body: some View {
+        Text("First View")
+            .navigationTitle("First View")
+    }
+}
+
+struct ThirdView: View {
+    var body: some View {
+        Text("Third View")
+            .navigationTitle("Third View")
+    }
+}
+
+
+struct VideoView: View {
+    // Create the AVPlayer instance with the video URL
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "America", withExtension: "mp4")!)
+
+    var body: some View {
+        VideoPlayer(player: player)
+            .onAppear {
+                // Play the video automatically when the view appears
+                player.play()
+            }
+            .ignoresSafeArea()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationTitle("First Portal View")
+    }
+}
+
+struct SecVideoView: View {
+    var body: some View {
+        Text("Welcome to the portal 2")
+            .navigationTitle("Secnd  portal View")
+    }
+}
+
+struct ThirdVideoView: View {
+    var body: some View {
+        Text("Welcome to the portal 3")
+            .navigationTitle("Third portal View")
     }
 }
 
@@ -109,7 +281,6 @@ struct SecondView: View {
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     }
                 }
-                .navigationTitle("Art Gallery")
                 .onAppear {
                     // Start loading indicator
                     isLoading = true
@@ -128,47 +299,74 @@ struct SecondView: View {
                     }
                 }
             }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: CustomBackButton())
+            .edgesIgnoringSafeArea([.top, .bottom])
         }
     
     func pageView(for painting: Painting) -> some View {
         ScrollView {
-            VStack(alignment: .center) {
-                URLImage(URL(string: painting.imageUrl)!) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+            ZStack {
+                Image("MuseumBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(alignment: .center) {
+                    URLImage(URL(string: painting.imageUrl)!) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                    .frame(width: 500, height: 500)
+                    .position(x: 410, y: 409)
+                    
+                    Text(painting.title)
+                        .font(.custom("Futura", size:20))
+                        .italic()
+                        .multilineTextAlignment(.center)
+                        .frame(width: 300, height: 80, alignment: .center)
+                        .padding(.top, 80)
+
+                    
+                    Text("Artist: \(painting.artistName)")
+                        .font(.custom("Futura", size:20))
+                    
+                    Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
+                        .font(.custom("Futura", size:20))
+                    Spacer(minLength: 200)
+
                 }
-                .frame(width: 600, height: 600)
-                .padding(.top, 50)
-                
-                Text(painting.title)
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Text("Artist: \(painting.artistName)")
-                Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
             }
         }
     }
 }
 
-struct MuseumDetail: View {
-    let museum: Museum
-    
+struct CustomBackButton: View {
     var body: some View {
-        VStack {
-            Text(museum.name)
-                .font(.title)
-                .padding()
-            Text(museum.location)
-                .padding()
-            // You can add more information here such as images, maps, etc.
-            Spacer()
+        NavigationStack {
+            NavigationLink (destination: ContentView()) {
+                Image(systemName: "arrowshape.backward.circle")
+                    .foregroundColor(Color(hex: 0x9A8C98))
+                    .font(.system(size:50))
+                    .padding(.top, 50)
+                    .padding(.leading, 10)
+            }
         }
-        .navigationTitle(museum.name)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
+
+extension Color {
+    init(hex: UInt) {
+        let red = Double((hex >> 16) & 0xff) / 255.0
+        let green = Double((hex >> 8) & 0xff) / 255.0
+        let blue = Double(hex & 0xff) / 255.0
+        self.init(red: red, green: green, blue: blue)
+    }
+}
+
 
 struct Painting: Identifiable, Hashable {
     let id = UUID()
