@@ -88,13 +88,26 @@ struct ContentView: View {
 
 struct SecondView: View {
     @State private var paintings: [Painting] = []
-    @State private var isLoading = false // Add a state variable to track loading state
-    @State private var currentPage = 0 // Track the current page
+    @State private var isLoading = false
+    @State private var currentPage = 0
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Button("Press for Art") {
+            NavigationStack {
+                VStack {
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        TabView(selection: $currentPage) {
+                            ForEach(paintings, id: \.self) { painting in
+                                pageView(for: painting)
+                                    .tag(painting.imageUrl) // Use painting's imageUrl as tag for selection
+                            }
+                        }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    }
+                }
+                .navigationTitle("Art Gallery")
+                .onAppear {
                     // Start loading indicator
                     isLoading = true
                     fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
@@ -111,23 +124,8 @@ struct SecondView: View {
                         isLoading = false
                     }
                 }
-                .padding()
-                
-                if isLoading {
-                    ProgressView() // Show loading indicator if data is being fetched
-                } else {
-                    TabView(selection: $currentPage) {
-                        ForEach(paintings, id: \.self) { painting in
-                            pageView(for: painting)
-                                .tag(painting.id) // Use painting's id as tag for selection
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                }
             }
-            .navigationTitle("Art Gallery")
         }
-    }
     
     func pageView(for painting: Painting) -> some View {
         ScrollView {
@@ -138,6 +136,7 @@ struct SecondView: View {
                         .aspectRatio(contentMode: .fit)
                 }
                 .frame(width: 600, height: 600)
+                .padding(.top, 50)
                 
                 Text(painting.title)
                     .font(.headline)
@@ -150,66 +149,6 @@ struct SecondView: View {
         }
     }
 }
-
-
-/*struct SecondView: View {
-    @State private var paintings: [Painting] = []
-    @State private var isLoading = false // Add a state variable to track loading state'
-    
-    
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Button("Press for Art") {
-                    // Start loading indicator
-                    isLoading = true
-                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
-                        if let error = error {
-                            print("Error: \(error)")
-                            return
-                        }
-                        
-                        if let paintings = paintings {
-                            self.paintings = paintings
-                        }
-                        
-                        // Stop loading indicator
-                        isLoading = false
-                    }
-                }
-                .padding()
-                
-                if isLoading {
-                    ProgressView() // Show loading indicator if data is being fetched
-                } else {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 50) {
-                            ForEach(paintings, id: \.imageUrl) { painting in
-                                VStack(alignment: .center) {
-                                    URLImage(URL(string: painting.imageUrl)!) { image in
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            
-                                    }
-                                    .frame(width: 500, height: 500)
-                                    
-                                    Text(painting.title)
-                                        .font(.headline)
-                                        .multilineTextAlignment(.center)
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                }
-            }
-            .navigationTitle("Art Gallery")
-        }
-    }
-}*/
-
-
 
 struct MuseumDetail: View {
     let museum: Museum
