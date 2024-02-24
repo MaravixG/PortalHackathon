@@ -88,48 +88,127 @@ struct ContentView: View {
 
 struct SecondView: View {
     @State private var paintings: [Painting] = []
+    @State private var isLoading = false // Add a state variable to track loading state
+    @State private var currentPage = 0 // Track the current page
     
     var body: some View {
         NavigationStack {
-            
-                VStack {
-                    Button("Press for Art") {
-                        fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
-                            if let error = error {
-                                print("Error: \(error)")
-                                return
-                            }
-                            
-                            if let paintings = paintings {
-                                self.paintings = paintings
-                            }
+            VStack {
+                Button("Press for Art") {
+                    // Start loading indicator
+                    isLoading = true
+                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                        if let error = error {
+                            print("Error: \(error)")
+                            return
+                        }
+                        
+                        if let paintings = paintings {
+                            self.paintings = paintings
+                        }
+                        
+                        // Stop loading indicator
+                        isLoading = false
+                    }
+                }
+                .padding()
+                
+                if isLoading {
+                    ProgressView() // Show loading indicator if data is being fetched
+                } else {
+                    TabView(selection: $currentPage) {
+                        ForEach(paintings, id: \.self) { painting in
+                            pageView(for: painting)
+                                .tag(painting.id) // Use painting's id as tag for selection
                         }
                     }
-                    
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                }
+            }
+            .navigationTitle("Art Gallery")
+        }
+    }
+    
+    func pageView(for painting: Painting) -> some View {
+        ScrollView {
+            VStack(alignment: .center) {
+                URLImage(URL(string: painting.imageUrl)!) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                .frame(width: 600, height: 600)
+                
+                Text(painting.title)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                Text("Artist: \(painting.artistName)")
+                Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
+            }
+        }
+    }
+}
+
+
+/*struct SecondView: View {
+    @State private var paintings: [Painting] = []
+    @State private var isLoading = false // Add a state variable to track loading state'
+    
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Button("Press for Art") {
+                    // Start loading indicator
+                    isLoading = true
+                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                        if let error = error {
+                            print("Error: \(error)")
+                            return
+                        }
+                        
+                        if let paintings = paintings {
+                            self.paintings = paintings
+                        }
+                        
+                        // Stop loading indicator
+                        isLoading = false
+                    }
+                }
+                .padding()
+                
+                if isLoading {
+                    ProgressView() // Show loading indicator if data is being fetched
+                } else {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 50) {
                             ForEach(paintings, id: \.imageUrl) { painting in
-                                VStack(alignment: .leading) {
-                                    URLImage( URL(string: painting.imageUrl)!) { image in
+                                VStack(alignment: .center) {
+                                    URLImage(URL(string: painting.imageUrl)!) { image in
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
+                                            
                                     }
-                                    .frame(width: 100, height: 100)
+                                    .frame(width: 500, height: 500)
                                     
                                     Text(painting.title)
                                         .font(.headline)
+                                        .multilineTextAlignment(.center)
                                 }
                             }
                         }
                         .padding()
                     }
-                
+                }
             }
             .navigationTitle("Art Gallery")
         }
     }
-}
+}*/
+
 
 
 struct MuseumDetail: View {
@@ -149,9 +228,12 @@ struct MuseumDetail: View {
     }
 }
 
-struct Painting {
+struct Painting: Identifiable, Hashable {
+    let id = UUID()
     let title: String
     let imageUrl: String
+    let artistName: String // New property for artist's name
+    let yearOfCreation: Int // New property for year of creation
 }
 
 func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?, Error?) -> Void) {
@@ -161,8 +243,9 @@ func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?
     // Define the query parameters for the API request
     let queryParams = [
         "apikey": myKey,
-        "size": "5", // Specify the number of random paintings to retrieve
-        "sort": "random" // Sort the results randomly
+        "size": "10", // Specify the number of random paintings to retrieve
+        "sort": "random", // Sort the results randomly
+        "fields": "title,primaryimageurl,people,datebegin"
     ]
 
     // Create the URL components
@@ -189,40 +272,47 @@ func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?
             return
         }
 
-        // Check if response is received
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
+        guard let httpResponse = response as? HTTPURLResponse else {
             completion(nil, NSError(domain: "InvalidResponse", code: -1, userInfo: nil))
             return
         }
 
-        // Check if data is received
+        guard (200...299).contains(httpResponse.statusCode) else {
+            completion(nil, NSError(domain: "InvalidResponse", code: -1, userInfo: nil))
+            return
+        }
+
         guard let responseData = data else {
             completion(nil, NSError(domain: "NoData", code: -1, userInfo: nil))
             return
         }
 
-        // Convert the data to JSON
         do {
             let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
 
-            // Extract information about the paintings from the JSON response
             if let records = json?["records"] as? [[String: Any]] {
+                var paintings = [Painting]()
                 for record in records {
-                    if let title = record["title"] as? String, let imageUrl = record["primaryimageurl"] as? String {
-                        // Create a Painting object and add it to the array
-                        let painting = Painting(title: title, imageUrl: imageUrl)
-                        paintings.append(painting)
+                    if let title = record["title"] as? String,
+                       let imageUrl = record["primaryimageurl"] as? String,
+                       let people = record["people"] as? [[String: Any]],
+                       let person = people.first,
+                       let artistName = person["name"] as? String,
+                       let dateBegin = record["datebegin"] as? Int {
+                            print(title + imageUrl + artistName + String(dateBegin))
+                            let painting = Painting(title: title, imageUrl: imageUrl, artistName: artistName, yearOfCreation: dateBegin)
+                            paintings.append(painting)
                     }
                 }
+                completion(paintings, nil)
+            } else {
+                completion(nil, NSError(domain: "InvalidResponse", code: -1, userInfo: nil))
             }
-
-            // Call the completion handler with the array of paintings
-            completion(paintings, nil)
         } catch {
             completion(nil, error)
         }
     }
+
 
     // Start the data task
     task.resume()
