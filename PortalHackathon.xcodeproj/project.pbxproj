@@ -10,6 +10,9 @@
 		4C01319A2B89D81B006FC000 /* America.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C0131992B89D81B006FC000 /* America.mp4 */; };
 		4C01319B2B89D81B006FC000 /* America.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C0131992B89D81B006FC000 /* America.mp4 */; };
 		4C01319C2B89D81B006FC000 /* America.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C0131992B89D81B006FC000 /* America.mp4 */; };
+		4C01319E2B8A4F38006FC000 /* France1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C01319D2B8A4F38006FC000 /* France1.mp4 */; };
+		4C0131A02B8A4F45006FC000 /* Dakar1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C01319F2B8A4F45006FC000 /* Dakar1.mp4 */; };
+		4C0131A22B8A4F53006FC000 /* America1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C0131A12B8A4F53006FC000 /* America1.mp4 */; };
 		4C6328332B8947EC00378262 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4C6328322B8947EC00378262 /* URLImage */; };
 		4C6328352B8947EC00378262 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C6328342B8947EC00378262 /* URLImageStore */; };
 		4C7BE6752B89039F00DCF92A /* PortalHackathonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */; };
@@ -40,6 +43,9 @@
 
 /* Begin PBXFileReference section */
 		4C0131992B89D81B006FC000 /* America.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = America.mp4; path = ../../../Downloads/America.mp4; sourceTree = "<group>"; };
+		4C01319D2B8A4F38006FC000 /* France1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = France1.mp4; path = ../../../Downloads/France1.mp4; sourceTree = "<group>"; };
+		4C01319F2B8A4F45006FC000 /* Dakar1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dakar1.mp4; path = ../../../Downloads/Dakar1.mp4; sourceTree = "<group>"; };
+		4C0131A12B8A4F53006FC000 /* America1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = America1.mp4; path = ../../../Downloads/America1.mp4; sourceTree = "<group>"; };
 		4C7BE6712B89039F00DCF92A /* PortalHackathon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortalHackathon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalHackathonApp.swift; sourceTree = "<group>"; };
 		4C7BE6762B89039F00DCF92A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +111,9 @@
 				4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */,
 				4C7BE6762B89039F00DCF92A /* ContentView.swift */,
 				4C7BE6782B8903A000DCF92A /* Assets.xcassets */,
+				4C0131A12B8A4F53006FC000 /* America1.mp4 */,
+				4C01319F2B8A4F45006FC000 /* Dakar1.mp4 */,
+				4C01319D2B8A4F38006FC000 /* France1.mp4 */,
 				4C0131992B89D81B006FC000 /* America.mp4 */,
 				4C7BE67A2B8903A000DCF92A /* Preview Content */,
 			);
@@ -249,6 +258,9 @@
 			files = (
 				4C01319A2B89D81B006FC000 /* America.mp4 in Resources */,
 				4C7BE67C2B8903A000DCF92A /* Preview Assets.xcassets in Resources */,
+				4C0131A02B8A4F45006FC000 /* Dakar1.mp4 in Resources */,
+				4C01319E2B8A4F38006FC000 /* France1.mp4 in Resources */,
+				4C0131A22B8A4F53006FC000 /* America1.mp4 in Resources */,
 				4C7BE6792B8903A000DCF92A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

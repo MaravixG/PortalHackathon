@@ -229,7 +229,7 @@ struct ThirdView: View {
 }
 
 
-struct VideoView: View {
+/*struct VideoView: View {
     // Create the AVPlayer instance with the video URL
     private let player = AVPlayer(url: Bundle.main.url(forResource: "America", withExtension: "mp4")!)
 
@@ -243,20 +243,100 @@ struct VideoView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationTitle("First Portal View")
     }
+}*/
+
+struct VideoView: View {
+
+    // Create the AVPlayer instance with the video URL
+
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "Dakar1", withExtension: "mp4")!)
+
+
+
+    var body: some View {
+
+        VideoPlayer(player: player)
+
+            .onAppear {
+
+                // Play the video automatically when the view appears
+
+                player.play()
+
+            }
+
+            .ignoresSafeArea()
+
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            .navigationTitle("First Portal View")
+
+    }
+
 }
+
+//Mexico
 
 struct SecVideoView: View {
+
+    // Create the AVPlayer instance with the video URL
+
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "France1", withExtension: "mp4")!)
+
+
+
     var body: some View {
-        Text("Welcome to the portal 2")
-            .navigationTitle("Secnd  portal View")
+
+        VideoPlayer(player: player)
+
+            .onAppear {
+
+                // Play the video automatically when the view appears
+
+                player.play()
+
+            }
+
+            .ignoresSafeArea()
+
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            .navigationTitle("Second Portal View")
+
     }
+
 }
 
+// Sydney
+
 struct ThirdVideoView: View {
+
+    // Create the AVPlayer instance with the video URL
+
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "America1", withExtension: "mp4")!)
+
+
+
     var body: some View {
-        Text("Welcome to the portal 3")
-            .navigationTitle("Third portal View")
+
+        VideoPlayer(player: player)
+
+            .onAppear {
+
+                // Play the video automatically when the view appears
+
+                player.play()
+
+            }
+
+            .ignoresSafeArea()
+
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            .navigationTitle("Second Portal View")
+
     }
+
 }
 
 struct SecondView: View {
@@ -459,4 +539,42 @@ func fetchArt(culture: String, myKey: String, baseURL: String, completion: @esca
 
     // Start the data task
     task.resume()
+}
+
+struct IdleScreen: View {
+    @State private var currentIndex = 0
+    @State private var isTapped = false
+    
+    let images = ["France", "Senegal", "Mexico"] // Names of your images
+    
+    var body: some View {
+        ZStack {
+            Image(images[currentIndex])
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .onAppear {
+                    Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+                        withAnimation {
+                            currentIndex = (currentIndex + 1) % images.count
+                        }
+                    }
+                }
+                .onTapGesture {
+                    isTapped = true
+                }
+            
+            if isTapped {
+                ContentView() // Replace MainMapView() with your main map screen
+            }
+        }
+        .transition(.opacity)
+    }
+}
+
+
+struct IdleScreen_Previews: PreviewProvider {
+    static var previews: some View {
+        IdleScreen()
+    }
 }
