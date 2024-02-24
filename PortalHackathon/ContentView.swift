@@ -66,28 +66,7 @@ struct ContentView: View {
                     
                     
                 }
-                /*NavigationLink(destination: SecondView(cultureVal: "American")) {
-                    Image(systemName: "building.columns")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.white)
-                        .position(x: 230, y:500)
-                }
                 
-                NavigationLink(destination: SecondView(cultureVal: "French")) {
-                    Image(systemName: "building.columns")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.white)
-                        .position(x: 500, y:600)
-                }
-                NavigationLink(destination: SecondView(cultureVal: "Japanese")) {
-                    Image(systemName: "building.columns")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.white)
-                        .position(x: 450, y:480)
-                }*/
                 NavigationLink(destination: SecondView(cultureVal: "American")) {
                     Image(systemName: "building.columns")
                         .resizable()
@@ -132,7 +111,7 @@ struct ContentView: View {
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
                     }
-                    .offset(x: 350 , y: 150) // Adjust offset here for positioning
+                    .offset(x: 360 , y: 160) // Adjust offset here for positioning
                     .padding(.bottom, 50) // Padding to ensure it's within the safe area
                                     
                 NavigationLink(destination: ThirdVideoView()) {
@@ -145,16 +124,71 @@ struct ContentView: View {
                     .offset(x: -250 , y: 9) // Adjust offset here for positioning
                     .padding(.bottom, 50) // Padding to ensure it's within the safe area
                 
-                Text("Washington D.C.")
+                Text("America")
                     .foregroundColor(.white)
-                    .font(.caption)
+                    .font(.custom("Futura", size: 15))
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(5)
                     .background(Color.black)
                     .cornerRadius(5)
                     .opacity(0.7)
-                    .position(x: 230, y: 460)
+                    .position(x: 240, y: 542)
+                
+                Text("Mexico City")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 180, y: 600)
+                
+                Text("France")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 440, y: 522)
+                
+                Text("Dakar")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 401, y: 612)
+                
+                Text("Sydney")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 792, y: 750)
+                
+                Text("Japan")
+                    .foregroundColor(.white)
+                    .font(.custom("Futura", size: 15))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(5)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .opacity(0.7)
+                    .position(x: 771, y: 542)
                 
                 VStack {
                     Spacer()
