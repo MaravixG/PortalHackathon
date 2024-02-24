@@ -269,7 +269,6 @@ struct VideoView: View {
 
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            .navigationTitle("First Portal View")
 
     }
 
@@ -301,8 +300,6 @@ struct SecVideoView: View {
 
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            .navigationTitle("Second Portal View")
-
     }
 
 }
@@ -332,9 +329,6 @@ struct ThirdVideoView: View {
             .ignoresSafeArea()
 
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            .navigationTitle("Second Portal View")
-
     }
 
 }
@@ -429,8 +423,8 @@ struct CustomBackButton: View {
             NavigationLink (destination: ContentView()) {
                 Image(systemName: "arrowshape.backward.circle")
                     .foregroundColor(Color(hex: 0x9A8C98))
-                    .font(.system(size:50))
-                    .padding(.top, 50)
+                    .font(.system(size:30))
+                    .padding(.top, 10)
                     .padding(.leading, 10)
             }
         }
@@ -463,7 +457,7 @@ func fetchArt(culture: String, myKey: String, baseURL: String, completion: @esca
     // Define the query parameters for the API request
     let queryParams = [
         "apikey": myKey,
-        "size": "10", // Specify the number of random paintings to retrieve
+        "size": "100", // Specify the number of random paintings to retrieve
         "sort": "random", // Sort the results randomly
         "fields": "title,primaryimageurl,people,datebegin",
     ]
