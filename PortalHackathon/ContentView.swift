@@ -33,19 +33,32 @@ struct ContentView: View {
         NavigationStack{
             ZStack {
                 // Background image
-                Image("WorldMapv1") // Replace "background_image" with the name of your image file
+                Image("WorldMapv2") // Replace "background_image" with the name of your image file
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 // Other views overlaying the background
                 
                 VStack {
-                    Spacer() // Pushes the text to the top
-                    Text("Portal")
-                        .font(.largeTitle) // Set the font size
-                        .foregroundColor(.white) // Set the text color
-                        .padding(.top, 30)
-                    Spacer(minLength: 1000)
+                    
+                    HStack {
+                        Spacer()
+                        Text("P")
+                            .font(.custom("Futura", size: 100))
+                            .foregroundColor(.white)
+                            .padding(.top, 30)
+                        Image(systemName: "door.left.hand.open")
+                            .resizable()
+                            .frame(width:50, height: 80)
+                            .padding(.top, 30)
+                            .colorInvert()
+                        Text("rtal")
+                            .font(.custom("Futura", size:100))
+                            .foregroundColor(.white)
+                            .padding(.top, 30)
+                        Spacer()
+                    }
+                    Spacer()
                     
                     
                 }
@@ -80,10 +93,38 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .position(x: 450, y:480)
                 }
-                
+                VStack {
+                    Spacer()
+                    HStack{
+                        Text("Select a ")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                        Image(systemName: "building.columns")
+                            .resizable()
+                            .frame(width:60, height:60)
+                            .colorInvert()
+                        Text(" to view art from that country")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                    }
+                    HStack {
+                        Text("Select a ")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                        Image(systemName: "door.left.hand.open")
+                            .resizable()
+                            .frame(width:37.5, height:60)
+                            .colorInvert()
+                        Text(" to call a Portal in that country")
+                            .font(.custom("Futura", size:40))
+                            .colorInvert()
+                    }
+                    .padding(.bottom, 40)
+                }
             }
         }
-        .navigationTitle("MapView")
+        .navigationBarBackButtonHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -128,6 +169,9 @@ struct SecondView: View {
                     }
                 }
             }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: CustomBackButton())
         }
     
     func pageView(for painting: Painting) -> some View {
@@ -150,6 +194,30 @@ struct SecondView: View {
                 Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
             }
         }
+    }
+}
+
+struct CustomBackButton: View {
+    var body: some View {
+        NavigationStack {
+            NavigationLink (destination: ContentView()) {
+                Image(systemName: "arrowshape.backward.circle")
+                    .foregroundColor(Color(hex: 0x9A8C98))
+                    .font(.system(size:50))
+                    .padding(.top, 50)
+                    .padding(.leading, 10)
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+extension Color {
+    init(hex: UInt) {
+        let red = Double((hex >> 16) & 0xff) / 255.0
+        let green = Double((hex >> 8) & 0xff) / 255.0
+        let blue = Double(hex & 0xff) / 255.0
+        self.init(red: red, green: green, blue: blue)
     }
 }
 
@@ -185,7 +253,7 @@ func fetchArt(culture: String, myKey: String, baseURL: String, completion: @esca
     // Define the query parameters for the API request
     let queryParams = [
         "apikey": myKey,
-        "size": "10", // Specify the number of random paintings to retrieve
+        "size": "1", // Specify the number of random paintings to retrieve
         "sort": "random", // Sort the results randomly
         "fields": "title,primaryimageurl,people,datebegin",
     ]
