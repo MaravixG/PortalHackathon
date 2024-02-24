@@ -56,7 +56,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .position(x: 230, y:500)
                 }
-                Text("Smithsonian Museum of Art, Washington D.C.")
+                Text("Harvard Art Museums, Washington D.C.")
                     .foregroundColor(.white)
                     .font(.caption)
                     .multilineTextAlignment(.center)
@@ -66,20 +66,6 @@ struct ContentView: View {
                     .cornerRadius(5)
                     .opacity(0.7) // Adjust the opacity as needed
                     .position(x: 230, y:540)
-                Button("press for art") {
-                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
-                        if let error = error {
-                            print("Error: \(error)")
-                            return
-                        }
-
-                        if let paintings = paintings {
-                            for painting in paintings {
-                                print("Title: \(painting.title), Image URL: \(painting.imageUrl)")
-                            }
-                        }
-                    }
-                }
             }
         }
         .navigationTitle("MapView")
@@ -110,7 +96,7 @@ struct SecondView: View {
                 .onAppear {
                     // Start loading indicator
                     isLoading = true
-                    fetchArt(myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                    fetchArt(culture: "American", myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
                         if let error = error {
                             print("Error: \(error)")
                             return
@@ -175,7 +161,7 @@ struct Painting: Identifiable, Hashable {
     let yearOfCreation: Int // New property for year of creation
 }
 
-func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?, Error?) -> Void) {
+func fetchArt(culture: String, myKey: String, baseURL: String, completion: @escaping ([Painting]?, Error?) -> Void) {
     // Define the endpoint for retrieving random objects
     let endpoint = "/object"
 
@@ -184,7 +170,7 @@ func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?
         "apikey": myKey,
         "size": "10", // Specify the number of random paintings to retrieve
         "sort": "random", // Sort the results randomly
-        "fields": "title,primaryimageurl,people,datebegin"
+        "fields": "title,primaryimageurl,people,datebegin",
     ]
 
     // Create the URL components
@@ -228,18 +214,21 @@ func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?
 
         do {
             let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
-
+            
+            print(json as Any)
             if let records = json?["records"] as? [[String: Any]] {
                 var paintings = [Painting]()
                 for record in records {
-                    if let title = record["title"] as? String,
-                       let imageUrl = record["primaryimageurl"] as? String,
-                       let people = record["people"] as? [[String: Any]],
+                    if let people = record["people"] as? [[String: Any]],
                        let person = people.first,
-                       let artistName = person["name"] as? String,
+                       let cultureVal = person["culture"] as? String,
+                       cultureVal == culture,
+                       let title = record["title"] as? String,
+                       let imageUrl = record["primaryimageurl"] as? String,
+                       let name = person["name"] as? String,
                        let dateBegin = record["datebegin"] as? Int {
-                            print(title + imageUrl + artistName + String(dateBegin))
-                            let painting = Painting(title: title, imageUrl: imageUrl, artistName: artistName, yearOfCreation: dateBegin)
+                            print(cultureVal + title + name + String(dateBegin))
+                            let painting = Painting(title: title, imageUrl: imageUrl, artistName: name, yearOfCreation: dateBegin)
                             paintings.append(painting)
                     }
                 }
@@ -256,4 +245,3 @@ func fetchArt(myKey: String, baseURL: String, completion: @escaping ([Painting]?
     // Start the data task
     task.resume()
 }
-
