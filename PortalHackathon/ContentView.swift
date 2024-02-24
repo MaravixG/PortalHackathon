@@ -49,14 +49,14 @@ struct ContentView: View {
                     
                     
                 }
-                NavigationLink(destination: SecondView()) {
+                NavigationLink(destination: SecondView(cultureVal: "American")) {
                     Image(systemName: "building.columns")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.white)
                         .position(x: 230, y:500)
                 }
-                Text("Harvard Art Museums, Washington D.C.")
+                Text("Washington D.C.")
                     .foregroundColor(.white)
                     .font(.caption)
                     .multilineTextAlignment(.center)
@@ -66,6 +66,21 @@ struct ContentView: View {
                     .cornerRadius(5)
                     .opacity(0.7) // Adjust the opacity as needed
                     .position(x: 230, y:540)
+                NavigationLink(destination: SecondView(cultureVal: "French")) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                        .position(x: 500, y:600)
+                }
+                NavigationLink(destination: SecondView(cultureVal: "Japanese")) {
+                    Image(systemName: "building.columns")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                        .position(x: 450, y:480)
+                }
+                
             }
         }
         .navigationTitle("MapView")
@@ -76,6 +91,8 @@ struct SecondView: View {
     @State private var paintings: [Painting] = []
     @State private var isLoading = false
     @State private var currentPage = 0
+    
+    let cultureVal: String
     
     var body: some View {
             NavigationStack {
@@ -96,7 +113,7 @@ struct SecondView: View {
                 .onAppear {
                     // Start loading indicator
                     isLoading = true
-                    fetchArt(culture: "American", myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
+                    fetchArt(culture: cultureVal, myKey: "6c461233-f25c-46f0-89a0-8b565588d5b7", baseURL: "https://api.harvardartmuseums.org") { paintings, error in
                         if let error = error {
                             print("Error: \(error)")
                             return
