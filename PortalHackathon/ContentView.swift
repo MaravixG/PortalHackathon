@@ -258,6 +258,7 @@ struct ThirdVideoView: View {
             .navigationTitle("Third portal View")
     }
 }
+
 struct SecondView: View {
     @State private var paintings: [Painting] = []
     @State private var isLoading = false
@@ -280,7 +281,6 @@ struct SecondView: View {
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     }
                 }
-                .navigationTitle("Art Gallery")
                 .onAppear {
                     // Start loading indicator
                     isLoading = true
@@ -302,26 +302,42 @@ struct SecondView: View {
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: CustomBackButton())
+            .edgesIgnoringSafeArea([.top, .bottom])
         }
     
     func pageView(for painting: Painting) -> some View {
         ScrollView {
-            VStack(alignment: .center) {
-                URLImage(URL(string: painting.imageUrl)!) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+            ZStack {
+                Image("MuseumBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(alignment: .center) {
+                    URLImage(URL(string: painting.imageUrl)!) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                    .frame(width: 500, height: 500)
+                    .position(x: 410, y: 409)
+                    
+                    Text(painting.title)
+                        .font(.custom("Futura", size:20))
+                        .italic()
+                        .multilineTextAlignment(.center)
+                        .frame(width: 300, height: 80, alignment: .center)
+                        .padding(.top, 80)
+
+                    
+                    Text("Artist: \(painting.artistName)")
+                        .font(.custom("Futura", size:20))
+                    
+                    Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
+                        .font(.custom("Futura", size:20))
+                    Spacer(minLength: 200)
+
                 }
-                .frame(width: 600, height: 600)
-                .padding(.top, 50)
-                
-                Text(painting.title)
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Text("Artist: \(painting.artistName)")
-                Text("Year of Creation: \(painting.yearOfCreation == 0 ? "Unknown" : "\(painting.yearOfCreation)")")
             }
         }
     }
@@ -367,7 +383,7 @@ func fetchArt(culture: String, myKey: String, baseURL: String, completion: @esca
     // Define the query parameters for the API request
     let queryParams = [
         "apikey": myKey,
-        "size": "20", // Specify the number of random paintings to retrieve
+        "size": "10", // Specify the number of random paintings to retrieve
         "sort": "random", // Sort the results randomly
         "fields": "title,primaryimageurl,people,datebegin",
     ]
