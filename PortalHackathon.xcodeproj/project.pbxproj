@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F32C8D72B89AA9400BA3A2D /* America.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0F32C8D62B89AA9400BA3A2D /* America.mp4 */; };
 		0FD731E62B897C7B003BB846 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 0FD731E52B897C7B003BB846 /* Algorithms */; };
 		4C7BE6752B89039F00DCF92A /* PortalHackathonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */; };
 		4C7BE6772B89039F00DCF92A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7BE6762B89039F00DCF92A /* ContentView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F32C8D62B89AA9400BA3A2D /* America.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = America.mp4; path = ../../../../Downloads/America.mp4; sourceTree = "<group>"; };
 		4C7BE6712B89039F00DCF92A /* PortalHackathon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortalHackathon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalHackathonApp.swift; sourceTree = "<group>"; };
 		4C7BE6762B89039F00DCF92A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				4C7BE6742B89039F00DCF92A /* PortalHackathonApp.swift */,
 				4C7BE6762B89039F00DCF92A /* ContentView.swift */,
 				4C7BE6782B8903A000DCF92A /* Assets.xcassets */,
+				0F32C8D62B89AA9400BA3A2D /* America.mp4 */,
 				4C7BE67A2B8903A000DCF92A /* Preview Content */,
 			);
 			path = PortalHackathon;
@@ -222,6 +225,7 @@
 			mainGroup = 4C7BE6682B89039E00DCF92A;
 			packageReferences = (
 				0FD731E42B897C7B003BB846 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				0F32C8D52B89A11800BA3A2D /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 4C7BE6722B89039F00DCF92A /* Products */;
 			projectDirPath = "";
@@ -239,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F32C8D72B89AA9400BA3A2D /* America.mp4 in Resources */,
 				4C7BE67C2B8903A000DCF92A /* Preview Assets.xcassets in Resources */,
 				4C7BE6792B8903A000DCF92A /* Assets.xcassets in Resources */,
 			);
@@ -593,6 +598,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0F32C8D52B89A11800BA3A2D /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		0FD731E42B897C7B003BB846 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";

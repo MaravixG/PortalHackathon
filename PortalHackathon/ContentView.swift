@@ -7,6 +7,11 @@
 
 import SwiftUI
 import MapKit
+import UIKit
+import AVFoundation
+import AVKit // Import AVKit to use VideoPlayer
+
+
 
 // Preview Provider
 struct ContentView_Previews: PreviewProvider {
@@ -47,14 +52,37 @@ struct ContentView: View {
                         .padding(.top, 30)
                     Spacer()
                     
-                    // Navigation to SecondView
-                    NavigationLink(destination: SecondView()) {
+                    // Navigation to Firstview ( Washington DC )
+                    NavigationLink(destination: FirstView()) {
                         Image(systemName: "building.columns")
                             .resizable()
                             .frame(width: 50, height: 50)
                             .foregroundColor(.white)
                     }
                     .position(x: 230, y: 410) // Adjust as needed
+                    
+                    // Nav to second view ( France )
+                    NavigationLink(destination: SecondView()) {
+                        Image(systemName: "building.columns")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.white)
+                    }
+                    .position(x: 440, y: 140)
+                    
+                    // nav to third view ( Japan )
+                    
+                    NavigationLink(destination: ThirdView()) {
+                        Image(systemName: "building.columns")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.white)
+                    }
+                    .position(x: 750, y: -70)
+                    
+                    
+                    
+                    
                     
                     NavigationLink(destination: VideoView()) {
                         Image(systemName: "door.left.hand.open") // Placeholder for a door opening to the left
@@ -73,7 +101,7 @@ struct ContentView: View {
                             .frame(width: 50, height: 50)
                             .foregroundColor(.white)
                     }
-                    .offset(x: 0 , y: -475) // Adjust offset here for positioning
+                    .offset(x: 300 , y: -250) // Adjust offset here for positioning
                     .padding(.bottom, 50) // Padding to ensure it's within the safe area
                     
                     NavigationLink(destination: ThirdVideoView()) {
@@ -87,7 +115,7 @@ struct ContentView: View {
                     .padding(.bottom, 50) // Padding to ensure it's within the safe area
                 }
                 
-                Text("Smithsonian Museum of Art, Washington D.C.")
+                Text("Washington D.C.")
                     .foregroundColor(.white)
                     .font(.caption)
                     .multilineTextAlignment(.center)
@@ -97,13 +125,24 @@ struct ContentView: View {
                     .cornerRadius(5)
                     .opacity(0.7)
                     .position(x: 230, y: 460)
+                
+                // text to repeat for france and japan
+                
             }
+            
         }
         .navigationTitle("MapView")
     }
 }
 
 // Second View
+struct FirstView: View {
+    var body: some View {
+        Text("First View")
+            .navigationTitle("First View")
+    }
+}
+
 struct SecondView: View {
     var body: some View {
         Text("Second View")
@@ -111,11 +150,27 @@ struct SecondView: View {
     }
 }
 
-// Third View
-struct VideoView: View {
+struct ThirdView: View {
     var body: some View {
-        Text("Welcome to the portal 1")
-            .navigationTitle("First portal View")
+        Text("Third View")
+            .navigationTitle("Third View")
+    }
+}
+
+
+struct VideoView: View {
+    // Create the AVPlayer instance with the video URL
+    private let player = AVPlayer(url: Bundle.main.url(forResource: "America", withExtension: "mp4")!)
+
+    var body: some View {
+        VideoPlayer(player: player)
+            .onAppear {
+                // Play the video automatically when the view appears
+                player.play()
+            }
+            .ignoresSafeArea()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationTitle("First Portal View")
     }
 }
 
